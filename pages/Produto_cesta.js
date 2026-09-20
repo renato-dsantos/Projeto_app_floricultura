@@ -10,7 +10,6 @@ import {
   StatusBar,
 } from 'react-native';
 
-
 const ICONE_LOGO = require('./assets/icones/logo.png');
 const ICONE_TAB_HOME = require('./assets/icones/icone_home.png');
 const ICONE_TAB_CARRINHO = require('./assets/icones/icone_carrinho.png');
@@ -25,27 +24,27 @@ const CATEGORIAS = [
 const PRODUTOS_DESTAQUE = [
   {
     id: '1',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor1.jpg'),
+    nome: 'Cesta café da manhã',
+    preco: 'R$400',
+    imagem: require('./assets/produtos/cesta/cesta1.png'),
   },
   {
     id: '2',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor2.jpg'),
+    nome: 'Cesta namoro',
+    preco: 'R$400',
+    imagem: require('./assets/produtos/cesta/cesta2.png'),
   },
   {
     id: '3',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor3.jpg'),
+    nome: 'Cesta aniversário',
+    preco: 'R$400',
+    imagem: require('./assets/produtos/cesta/cesta3.png'),
   },
   {
     id: '4',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor1.jpg'),
+    nome: 'esta romântica',
+    preco: 'R$400',
+    imagem: require('./assets/produtos/cesta/cesta4.png'),
   },
 ];
 
@@ -103,7 +102,7 @@ export default function FloriculturaHomeScreen({ navigation }) {
         </View>
 
         {/* Título */}
-        <Text style={styles.tituloSecao}>Produtos destaques</Text>
+        <Text style={styles.tituloSecao}>Cestas</Text>
 
         {/* Grid de produtos (2 colunas) */}
         <View style={styles.grid}>

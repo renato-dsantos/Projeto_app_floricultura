@@ -10,7 +10,6 @@ import {
   StatusBar,
 } from 'react-native';
 
-
 const ICONE_LOGO = require('./assets/icones/logo.png');
 const ICONE_TAB_HOME = require('./assets/icones/icone_home.png');
 const ICONE_TAB_CARRINHO = require('./assets/icones/icone_carrinho.png');
@@ -25,27 +24,27 @@ const CATEGORIAS = [
 const PRODUTOS_DESTAQUE = [
   {
     id: '1',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor1.jpg'),
+    nome: 'Caixa Delicia de chocolates decorado',
+    preco: 'R$80,90',
+    imagem: require('./assets/produtos/chocolate/choco1.png'),
   },
   {
     id: '2',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor2.jpg'),
+    nome: 'Caixa Transparente com Chocolates',
+    preco: 'R$70,90',
+    imagem: require('./assets/produtos/chocolate/choco2.png'),
   },
   {
     id: '3',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor3.jpg'),
+    nome: 'Coração truda de colher chocolate branco',
+    preco: 'R$50,90',
+    imagem: require('./assets/produtos/chocolate/choco3.png'),
   },
   {
     id: '4',
-    nome: 'Buquê rosas e lírios',
+    nome: 'Coração truda de colher chocolate',
     preco: 'R$99,90',
-    imagem: require('./assets/produtos/flores/flor1.jpg'),
+    imagem: require('./assets/produtos/chocolate/choco3.png'),
   },
 ];
 
@@ -103,7 +102,7 @@ export default function FloriculturaHomeScreen({ navigation }) {
         </View>
 
         {/* Título */}
-        <Text style={styles.tituloSecao}>Produtos destaques</Text>
+        <Text style={styles.tituloSecao}>Chocolates</Text>
 
         {/* Grid de produtos (2 colunas) */}
         <View style={styles.grid}>

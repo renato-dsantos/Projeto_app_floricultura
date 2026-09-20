@@ -10,7 +10,6 @@ import {
   StatusBar,
 } from 'react-native';
 
-
 const ICONE_LOGO = require('./assets/icones/logo.png');
 const ICONE_TAB_HOME = require('./assets/icones/icone_home.png');
 const ICONE_TAB_CARRINHO = require('./assets/icones/icone_carrinho.png');
@@ -103,7 +102,7 @@ export default function FloriculturaHomeScreen({ navigation }) {
         </View>
 
         {/* Título */}
-        <Text style={styles.tituloSecao}>Produtos destaques</Text>
+        <Text style={styles.tituloSecao}>Flores e Buques</Text>
 
         {/* Grid de produtos (2 colunas) */}
         <View style={styles.grid}>
