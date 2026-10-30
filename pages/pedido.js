@@ -49,7 +49,7 @@ function ItemCarrinho({ item, onAumentar, onDiminuir, onRemover }) {
               onPress={() => onDiminuir(item.id)}
               activeOpacity={0.7}
             >
-              <Text style={styles.quantidadeBotaoTexto}>âˆ’</Text>
+              <Text style={styles.quantidadeBotaoTexto}>-</Text>
             </TouchableOpacity>
             <Text style={styles.quantidadeValor}>{item.quantidade}</Text>
             <TouchableOpacity
