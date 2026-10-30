@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,23 +10,23 @@ import {
   StatusBar,
 } from 'react-native';
 
-// Ajuste os caminhos abaixo para os arquivos que você já tem em assets/
+// Ajuste os caminhos abaixo para os arquivos que vocÃª jÃ¡ tem em assets/
 
-const ICONE_LOGO = require('./assets/icones/logo.png');
-const ICONE_TAB_HOME = require('./assets/icones/icone_home.png');
-const ICONE_TAB_CARRINHO = require('./assets/icones/icone_carrinho.png');
-const ICONE_TAB_PERFIL = require('./assets/icones/perfil.png');
+const ICONE_LOGO = require('../assets/icones/logo.png');
+const ICONE_TAB_HOME = require('../assets/icones/icone_home.png');
+const ICONE_TAB_CARRINHO = require('../assets/icones/icone_carrinho.png');
+const ICONE_TAB_PERFIL = require('../assets/icones/perfil.png');
 
-const ICONE_LIXEIRA = require('./assets/icones/lixeira.png');
-const IMAGEM_BANNER = require('./assets/banner.png');
+const ICONE_LIXEIRA = require('../assets/icones/excluir.png');
+const IMAGEM_BANNER = require('../assets/banner.png');
 
 const ITENS_INICIAIS = [
   {
     id: '1',
-    nome: 'Buquê de rosas',
+    nome: 'BuquÃª de rosas',
     preco: 80.0,
     quantidade: 1,
-    imagem: require('./assets/produtos/produto1.png'),
+    imagem: require('../assets/produtos/flores/flor1.jpg'),
   },
 ];
 
@@ -49,7 +49,7 @@ function ItemCarrinho({ item, onAumentar, onDiminuir, onRemover }) {
               onPress={() => onDiminuir(item.id)}
               activeOpacity={0.7}
             >
-              <Text style={styles.quantidadeBotaoTexto}>−</Text>
+              <Text style={styles.quantidadeBotaoTexto}>âˆ’</Text>
             </TouchableOpacity>
             <Text style={styles.quantidadeValor}>{item.quantidade}</Text>
             <TouchableOpacity
@@ -70,8 +70,20 @@ function ItemCarrinho({ item, onAumentar, onDiminuir, onRemover }) {
   );
 }
 
-export default function CarrinhoScreen({ navigation }) {
-  const [itens, setItens] = useState(ITENS_INICIAIS);
+export default function CarrinhoScreen({ navigation, route }) {
+  const [itens, setItens] = useState([]);
+
+  React.useEffect(() => {
+    const produto = route.params?.produto;
+    if (!produto) return;
+
+    const preco = Number(String(produto.preco).replace(/[^\d,]/g, '').replace(',', '.'));
+    setItens((atuais) => [
+      ...atuais,
+      { ...produto, id: `${produto.id}-${Date.now()}`, preco, quantidade: 1 },
+    ]);
+    navigation.setParams({ produto: undefined });
+  }, [navigation, route.params?.produto]);
 
   const aumentarQuantidade = (id) => {
     setItens((atual) =>
@@ -108,7 +120,7 @@ export default function CarrinhoScreen({ navigation }) {
         <View style={styles.header}>
           <Image source={ICONE_LOGO} style={styles.logoImagem} resizeMode="contain" />
           <TouchableOpacity activeOpacity={0.7}>
-            <Image source={ICONE_MENU} style={styles.menuImagem} resizeMode="contain" />
+            <Image source={ICONE_TAB_CARRINHO} style={styles.menuImagem} resizeMode="contain" />
           </TouchableOpacity>
         </View>
 
@@ -120,7 +132,7 @@ export default function CarrinhoScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Título */}
+        {/* TÃ­tulo */}
         <Text style={styles.tituloSecao}>Carrinho de compras</Text>
 
         {/* Lista de itens */}
@@ -146,7 +158,7 @@ export default function CarrinhoScreen({ navigation }) {
           <Text style={styles.totalValor}>{formatarPreco(total)}</Text>
         </View>
 
-        {/* Botão finalizar */}
+        {/* BotÃ£o finalizar */}
         <TouchableOpacity
           style={styles.botaoFinalizar}
           onPress={finalizarPedido}
@@ -159,13 +171,13 @@ export default function CarrinhoScreen({ navigation }) {
 
       {/* Tab bar inferior */}
       <View style={styles.tabBar}>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_HOME} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_CARRINHO} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_PERFIL} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
       </View>

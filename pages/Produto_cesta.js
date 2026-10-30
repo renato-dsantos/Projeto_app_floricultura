@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,41 +10,41 @@ import {
   StatusBar,
 } from 'react-native';
 
-const ICONE_LOGO = require('./assets/icones/logo.png');
-const ICONE_TAB_HOME = require('./assets/icones/icone_home.png');
-const ICONE_TAB_CARRINHO = require('./assets/icones/icone_carrinho.png');
-const ICONE_TAB_PERFIL = require('./assets/icones/perfil.png');
+const ICONE_LOGO = require('../assets/icones/logo.png');
+const ICONE_TAB_HOME = require('../assets/icones/icone_home.png');
+const ICONE_TAB_CARRINHO = require('../assets/icones/icone_carrinho.png');
+const ICONE_TAB_PERFIL = require('../assets/icones/perfil.png');
 
 const CATEGORIAS = [
-  { id: '1', icone: require('./assets/icones/icone_flor.png') },
-  { id: '2', icone: require('./assets/icones/icone_chocolate.png') },
-  { id: '3', icone: require('./assets/icones/icone_cestas.png') },
+  { id: '1', icone: require('../assets/icones/icone_flor.png') },
+  { id: '2', icone: require('../assets/icones/icone_chocolate.png') },
+  { id: '3', icone: require('../assets/icones/icone_cestas.png') },
 ];
 
 const PRODUTOS_DESTAQUE = [
   {
     id: '1',
-    nome: 'Cesta café da manhã',
+    nome: 'Cesta cafÃ© da manhÃ£',
     preco: 'R$400',
-    imagem: require('./assets/produtos/cesta/cesta1.png'),
+    imagem: require('../assets/produtos/cesta/cesta1.png'),
   },
   {
     id: '2',
     nome: 'Cesta namoro',
     preco: 'R$400',
-    imagem: require('./assets/produtos/cesta/cesta2.png'),
+    imagem: require('../assets/produtos/cesta/cesta2.png'),
   },
   {
     id: '3',
-    nome: 'Cesta aniversário',
+    nome: 'Cesta aniversÃ¡rio',
     preco: 'R$400',
-    imagem: require('./assets/produtos/cesta/cesta3.png'),
+    imagem: require('../assets/produtos/cesta/cesta3.png'),
   },
   {
     id: '4',
-    nome: 'esta romântica',
+    nome: 'esta romÃ¢ntica',
     preco: 'R$400',
-    imagem: require('./assets/produtos/cesta/cesta4.png'),
+    imagem: require('../assets/produtos/cesta/cesta4.png'),
   },
 ];
 
@@ -69,8 +69,7 @@ function ProdutoCard({ produto, onComprar }) {
 
 export default function FloriculturaHomeScreen({ navigation }) {
   const handleComprar = (produto) => {
-    // navigation?.navigate('DetalheProduto', { produto });
-    console.log('Comprar:', produto.nome);
+    navigation.navigate('Carrinho', { produto });
   };
 
   return (
@@ -87,7 +86,7 @@ export default function FloriculturaHomeScreen({ navigation }) {
         {/* Banner */}
         <View style={styles.bannerContainer}>
           <Image
-            source={require('./assets/banner.png')}
+            source={require('../assets/banner.png')}
             style={styles.bannerImagem}
           />
         </View>
@@ -95,13 +94,13 @@ export default function FloriculturaHomeScreen({ navigation }) {
         {/* Categorias */}
         <View style={styles.categoriasRow}>
           {CATEGORIAS.map((cat) => (
-            <TouchableOpacity key={cat.id} style={styles.categoriaBotao} activeOpacity={0.7}>
+            <TouchableOpacity key={cat.id} style={styles.categoriaBotao} activeOpacity={0.7} onPress={() => navigation.navigate(["Flores", "Chocolates", "Cestas"][Number(cat.id) - 1])}>
               <Image source={cat.icone} style={styles.categoriaImagem} resizeMode="contain" />
             </TouchableOpacity>
           ))}
         </View>
 
-        {/* Título */}
+        {/* TÃ­tulo */}
         <Text style={styles.tituloSecao}>Cestas</Text>
 
         {/* Grid de produtos (2 colunas) */}
@@ -114,13 +113,13 @@ export default function FloriculturaHomeScreen({ navigation }) {
 
       {/* Tab bar inferior */}
       <View style={styles.tabBar}>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_HOME} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_CARRINHO} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_PERFIL} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
       </View>
@@ -139,15 +138,15 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   header: {
-  alignItems: 'flex-start',   // era 'center' — isso que empurra o logo pro centro
+  alignItems: 'flex-start',   // era 'center' â€” isso que empurra o logo pro centro
   paddingVertical: 16,
-  paddingHorizontal: 16,      // opcional, pra não colar na borda
+  paddingHorizontal: 16,      // opcional, pra nÃ£o colar na borda
 },
 logoCirculo: {
   width: 48,
   height: 48,
   borderRadius: 24,
-  alignItems: 'center',       // mantém o ícone centralizado DENTRO do círculo
+  alignItems: 'center',       // mantÃ©m o Ã­cone centralizado DENTRO do cÃ­rculo
   justifyContent: 'center',
 },
 logoImagem: {
