@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useCallback, useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
+import { listarProdutos, imagemDoProduto } from '../services/api';
 
 
 const ICONE_LOGO = require('../assets/icones/logo.png');
@@ -22,41 +24,14 @@ const CATEGORIAS = [
   { id: '3', icone: require('../assets/icones/icone_cestas.png') },
 ];
 
-const PRODUTOS_DESTAQUE = [
-  {
-    id: '1',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('../assets/produtos/flores/flor1.jpg'),
-  },
-  {
-    id: '2',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('../assets/produtos/flores/flor2.jpg'),
-  },
-  {
-    id: '3',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('../assets/produtos/flores/flor3.jpg'),
-  },
-  {
-    id: '4',
-    nome: 'Buquê rosas e lírios',
-    preco: 'R$99,90',
-    imagem: require('../assets/produtos/flores/flor1.jpg'),
-  },
-];
-
 function ProdutoCard({ produto, onComprar }) {
   return (
     <View style={styles.card}>
-      <Image source={produto.imagem} style={styles.cardImagem} />
+      <Image source={imagemDoProduto(produto.imagem)} style={styles.cardImagem} />
       <Text style={styles.cardNome} numberOfLines={2}>
         {produto.nome}
       </Text>
-      <Text style={styles.cardPreco}>{produto.preco}</Text>
+      <Text style={styles.cardPreco}>{produto.precoFormatado}</Text>
       <TouchableOpacity
         style={styles.botaoComprar}
         onPress={() => onComprar(produto)}
@@ -69,8 +44,36 @@ function ProdutoCard({ produto, onComprar }) {
 }
 
 export default function FloriculturaHomeScreen({ navigation }) {
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
+
+  const carregarProdutos = useCallback(async () => {
+    setCarregando(true);
+    setErro(null);
+    try {
+      const dados = await listarProdutos({ destaque: true });
+      setProdutos(dados);
+    } catch (e) {
+      setErro('Não foi possível carregar os produtos. Verifique se o servidor está rodando.');
+    } finally {
+      setCarregando(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    carregarProdutos();
+  }, [carregarProdutos]);
+
   const handleComprar = (produto) => {
-    navigation.navigate('Carrinho', { produto });
+    // O carrinho (pedido.js) espera imagem como source e preço como texto "R$99,90"
+    navigation.navigate('Carrinho', {
+      produto: {
+        ...produto,
+        imagem: imagemDoProduto(produto.imagem),
+        preco: produto.precoFormatado,
+      },
+    });
   };
 
   return (
@@ -105,11 +108,22 @@ export default function FloriculturaHomeScreen({ navigation }) {
         <Text style={styles.tituloSecao}>Produtos destaques</Text>
 
         {/* Grid de produtos (2 colunas) */}
-        <View style={styles.grid}>
-          {PRODUTOS_DESTAQUE.map((produto) => (
-            <ProdutoCard key={produto.id} produto={produto} onComprar={handleComprar} />
-          ))}
-        </View>
+        {carregando ? (
+          <ActivityIndicator size="large" color="#1A1A1A" style={styles.carregando} />
+        ) : erro ? (
+          <View style={styles.erroBox}>
+            <Text style={styles.erroTexto}>{erro}</Text>
+            <TouchableOpacity style={styles.botaoComprar} onPress={carregarProdutos} activeOpacity={0.8}>
+              <Text style={styles.botaoComprarTexto}>Tentar novamente</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.grid}>
+            {produtos.map((produto) => (
+              <ProdutoCard key={produto.id} produto={produto} onComprar={handleComprar} />
+            ))}
+          </View>
+        )}
       </ScrollView>
 
       {/* Tab bar inferior */}
@@ -255,6 +269,20 @@ logoImagem: {
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '600',
+  },
+  carregando: {
+    marginTop: 40,
+  },
+  erroBox: {
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    marginTop: 24,
+    gap: 12,
+  },
+  erroTexto: {
+    fontSize: 13,
+    color: '#777777',
+    textAlign: 'center',
   },
   tabBar: {
     flexDirection: 'row',
