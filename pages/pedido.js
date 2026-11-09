@@ -9,8 +9,10 @@ import {
   StyleSheet,
   StatusBar,
 } from 'react-native';
+import { abrirPerfil } from '../services/perfil';
+import { usuarioLogado } from '../services/api';
 
-// Ajuste os caminhos abaixo para os arquivos que vocÃª jÃ¡ tem em assets/
+// Ajuste os caminhos abaixo para os arquivos que você já tem em assets/
 
 const ICONE_LOGO = require('../assets/icones/logo.png');
 const ICONE_TAB_HOME = require('../assets/icones/icone_home.png');
@@ -23,7 +25,7 @@ const IMAGEM_BANNER = require('../assets/banner.png');
 const ITENS_INICIAIS = [
   {
     id: '1',
-    nome: 'BuquÃª de rosas',
+    nome: 'Buquê de rosas',
     preco: 80.0,
     quantidade: 1,
     imagem: require('../assets/produtos/flores/flor1.jpg'),
@@ -108,8 +110,12 @@ export default function CarrinhoScreen({ navigation, route }) {
   const total = itens.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
 
   const finalizarPedido = () => {
-    // navigation?.navigate('Checkout', { itens, total });
-    console.log('Finalizar pedido:', itens, total);
+    // Precisa estar logado para comprar; depois do login a pessoa volta para o carrinho.
+    if (!usuarioLogado()) {
+      navigation.navigate('Login', { voltar: true });
+      return;
+    }
+    navigation.navigate('Checkout', { itens });
   };
 
   return (
@@ -132,7 +138,7 @@ export default function CarrinhoScreen({ navigation, route }) {
           </View>
         </View>
 
-        {/* TÃ­tulo */}
+        {/* Título */}
         <Text style={styles.tituloSecao}>Carrinho de compras</Text>
 
         {/* Lista de itens */}
@@ -158,7 +164,7 @@ export default function CarrinhoScreen({ navigation, route }) {
           <Text style={styles.totalValor}>{formatarPreco(total)}</Text>
         </View>
 
-        {/* BotÃ£o finalizar */}
+        {/* Botão finalizar */}
         <TouchableOpacity
           style={styles.botaoFinalizar}
           onPress={finalizarPedido}
@@ -177,7 +183,7 @@ export default function CarrinhoScreen({ navigation, route }) {
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_CARRINHO} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => abrirPerfil(navigation)}>
           <Image source={ICONE_TAB_PERFIL} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
       </View>

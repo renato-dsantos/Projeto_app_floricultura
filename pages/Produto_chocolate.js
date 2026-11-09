@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { listarProdutos, imagemDoProduto } from '../services/api';
+import { abrirPerfil } from '../services/perfil';
 
 const ICONE_LOGO = require('../assets/icones/logo.png');
 const ICONE_TAB_HOME = require('../assets/icones/icone_home.png');
@@ -133,7 +134,7 @@ export default function FloriculturaHomeScreen({ navigation }) {
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={ICONE_TAB_CARRINHO} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => abrirPerfil(navigation)}>
           <Image source={ICONE_TAB_PERFIL} style={styles.tabImagem} resizeMode="contain" />
         </TouchableOpacity>
       </View>
